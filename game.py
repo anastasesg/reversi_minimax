@@ -56,14 +56,18 @@ class Game:
     
     def __isEmpty(self, move):
         """
-        Returns true if  move is inside the board and false otherwise
+        Returns true if move is inside the board and false otherwise
         :param move: a tuple containg the position of the square the player wishes to place a token
         """
         return self.board[move[0]][move[1]] == EMPTY
 
     def __incrementUntilSameColor(self, origin, direction):
         """
-        Returns true if the 
+        This method is to help the method '__flipsTiles()' check if a given move generates a list of
+        coordinates of squares whose tokens must flip colors. It returns the coordinates of the end 
+        suare and true if such list exists and (none, false) otherwise.
+        :param origin: The starting position of the method
+        :param direction: A given direction which the method will "move" towards to in order to complete the check.
         """
         current_square = origin
         current_square = [x + y for x, y in zip(current_square, direction)]
