@@ -64,7 +64,7 @@ class Game:
 
     def __incrementUntilSameColor(self, origin, direction):
         """
-        This method is to help the method '__flipsTiles()' check if a given move generates a list of
+        This method is to help the method '__flipsTokens()' check if a given move generates a list of
         coordinates of squares whose tokens must flip colors. It returns the coordinates of the end 
         square and true if such list exists and (none, false) otherwise.
         :param origin: The starting position of the method
@@ -82,7 +82,7 @@ class Game:
         else:
             return False, None
 
-    def __flipsTiles(self, move):
+    def __flipsTokens(self, move):
         """
         Returns a list containing the position of the squares which contain the opponent's token which must change color
         :param move: a tuple containing the position of the square the player wishes to place a token
@@ -101,7 +101,7 @@ class Game:
         Returns true if a move is valid and false otherwise
         :param move: a tuple containing the position of the square the player wishes to place a token
         """
-        return self.__isOnBoard(move) and len(self.__flipsTiles(move)) > 0 and self.__isEmpty(move)
+        return self.__isOnBoard(move) and len(self.__flipsTokens(move)) > 0 and self.__isEmpty(move)
 
     def hasValid(self):
         """
@@ -129,7 +129,7 @@ class Game:
         Executes the give move, updates the board and switches current player to it's opponent
         """
         if self.isValid(move):
-            toBeFliped = self.__flipsTiles(move)
+            toBeFliped = self.__flipsTokens(move)
             self.board[move[0]][move[1]] = self.current_player
             for x, y in toBeFliped:
                 self.board[x][y] = self.current_player
