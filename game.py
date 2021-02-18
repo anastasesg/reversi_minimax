@@ -21,19 +21,6 @@ class Game:
                       [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY]]
         self.__directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
-    def __getString(self, x, y):
-        """
-        Returns the corresponding string representing each player
-        :param x: Indicates the row of the board
-        :param y: Indicates the column of the board
-        """
-        if self.board[x][y] == BLACK:
-            return BLACK_STR
-        elif self.board[x][y] == WHITE:
-            return WHITE_STR
-        else:
-            return EMPTY_STR
-
     def __str__(self):
         """
         Overrides the original print statement in order to print the board when calling 'print(Game())'
@@ -46,6 +33,19 @@ class Game:
             string.append("|\n")
             string.append("  +---+---+---+---+---+---+---+---+\n")
         return "".join(string)
+
+    def __getString(self, x, y):
+        """
+        Returns the corresponding string representing each player
+        :param x: Indicates the row of the board
+        :param y: Indicates the column of the board
+        """
+        if self.board[x][y] == BLACK:
+            return BLACK_STR
+        elif self.board[x][y] == WHITE:
+            return WHITE_STR
+        else:
+            return EMPTY_STR
 
     @staticmethod
     def __isOnBoard(move):
