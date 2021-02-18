@@ -139,6 +139,6 @@ class Game:
         """
         for x in range(8):
             for y in range(8):
-                if self.isEmpty([x, y]):
+                if self.__isEmpty([x, y]):
                     return False
         return True
