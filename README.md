@@ -1,1 +1,2 @@
-# Reversi and MiniMax
+# Reversi και MiniMax
+Το πρόγραμμα αυτό είναι μία απόπειρα να 
