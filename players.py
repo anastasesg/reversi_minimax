@@ -1,6 +1,7 @@
 from random import shuffle
 from copy import deepcopy
 
+
 BLACK = -1
 WHITE = 1
 WEIGHTS = [
