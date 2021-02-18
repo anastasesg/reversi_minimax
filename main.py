@@ -28,6 +28,7 @@ def play():
             last_move = aiPlayer(game, float('-inf'), float('inf'), depth, True)
             tokens = getTokens(game)
         subprocess.call('clear')
+
     score = getScore(game)
     if score[player] > score[-player]:
         print("Congratulations! You Won!\n")
