@@ -1,4 +1,4 @@
-from random import shuffle
+from random import *
 from copy import deepcopy
 
 
@@ -16,11 +16,19 @@ WEIGHTS = [
         ]
 
 
-def minimax(state_name, alpha, beta, depth, is_maximizing):
+def shuffler(state_name):
     children, moves = getChildren(state_name)
+    seed(10)
+    shuffle(children)
+    seed(10)
+    shuffle(moves)
+    return children, moves
+
+
+def minimax(state_name, alpha, beta, depth, is_maximizing):
+    children, moves = shuffler(state_name)
     player = state_name.current_player
     score = getScore(state_name)
-    shuffle(children)
 
     if is_maximizing:
         max_value, max_move = float('-inf'), [-1, -1]
