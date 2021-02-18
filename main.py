@@ -1,6 +1,9 @@
+import subprocess
+import sys
+
 from game import *
 from players import *
-import subprocess, sys
+
 
 def play():
     subprocess.call('clear')
@@ -26,7 +29,6 @@ def play():
             tokens = getTokens(game)
         subprocess.call('clear')
 
-
     score = getScore(game)
     if score[player] > score[-player]:
         print("Congratulations! You Won!\n")
@@ -37,6 +39,7 @@ def play():
     else:
         print("It's a tie!")
     return None
+
 
 if __name__ == '__main__':
     play()
