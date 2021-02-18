@@ -20,9 +20,9 @@ def play():
         print(game)
         if game.current_player == player:
             print("The last move was {} and the score is {}".format([x + 1 for x in last_move], tokens))
-            human_play(game)
+            humanPlayer(game)
         else:
-            last_move = ai_play(game, float('-inf'), float('inf'), depth, True)
+            last_move = aiPlayer(game, float('-inf'), float('inf'), depth, True)
             tokens = getTokens(game)
         subprocess.call('clear')
 
