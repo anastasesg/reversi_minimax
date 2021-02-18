@@ -6,8 +6,9 @@ EMPTY, EMPTY_STR = 0, " "
 class Game:
     """
     Every state of the game will be an instant of the class.
-    It contains every relavent information of the game.
+    It contains every relevant information of the game.
     """
+
     def __init__(self):
         self.current_player = BLACK
         self.board = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
@@ -22,7 +23,7 @@ class Game:
 
     def __getString(self, x, y):
         """
-        Returns the coresponding string respresenting each player
+        Returns the corresponding string representing each player
         :param x: Indicates the row of the board
         :param y: Indicates the column of the board
         """
@@ -50,14 +51,14 @@ class Game:
     def __isOnBoard(move):
         """
         Returns true if the move is inside the board and false otherwise
-        :param move: a tuple containg the position of the square the player wishes to place a token
+        :param move: a tuple containing the position of the square the player wishes to place a token
         """
         return 0 <= move[0] < 8 and 0 <= move[1] < 8
-    
+
     def __isEmpty(self, move):
         """
         Returns true if move is inside the board and false otherwise
-        :param move: a tuple containg the position of the square the player wishes to place a token
+        :param move: a tuple containing the position of the square the player wishes to place a token
         """
         return self.board[move[0]][move[1]] == EMPTY
 
@@ -65,16 +66,17 @@ class Game:
         """
         This method is to help the method '__flipsTiles()' check if a given move generates a list of
         coordinates of squares whose tokens must flip colors. It returns the coordinates of the end 
-        suare and true if such list exists and (none, false) otherwise.
+        square and true if such list exists and (none, false) otherwise.
         :param origin: The starting position of the method
         :param direction: A given direction which the method will "move" towards to in order to complete the check.
         """
         current_square = origin
         current_square = [x + y for x, y in zip(current_square, direction)]
 
-        while self.__isOnBoard(current_square) and self.board[current_square[0]][current_square[1]] == -self.current_player:
+        while self.__isOnBoard(current_square) and self.board[current_square[0]][
+            current_square[1]] == -self.current_player:
             current_square = [x + y for x, y in zip(current_square, direction)]
-        
+
         if self.__isOnBoard(current_square) and self.board[current_square[0]][current_square[1]] == self.current_player:
             return True, current_square
         else:
@@ -82,8 +84,8 @@ class Game:
 
     def __flipsTiles(self, move):
         """
-        Returns a list containing the position of the squares which contain the opponent's token which must cange color 
-        :param move: a tuple containg the position of the square the player wishes to place a token
+        Returns a list containing the position of the squares which contain the opponent's token which must change color
+        :param move: a tuple containing the position of the square the player wishes to place a token
         """
         toBeFlipped = list()
         for direction in self.__directions:
@@ -97,10 +99,10 @@ class Game:
     def isValid(self, move):
         """
         Returns true if a move is valid and false otherwise
-        :param move: a tuple containg the position of the square the player wishes to place a token
+        :param move: a tuple containing the position of the square the player wishes to place a token
         """
         return self.__isOnBoard(move) and len(self.__flipsTiles(move)) > 0 and self.__isEmpty(move)
-    
+
     def hasValid(self):
         """
         Returns true if the current player has any valid moves and false otherwise
@@ -110,7 +112,7 @@ class Game:
                 if self.isValid([x, y]):
                     return True
         return False
-    
+
     def getValid(self):
         """
         Returns a list containing every valid move the current player can make
