@@ -1,7 +1,8 @@
-from game import BLACK, WHITE
 from random import shuffle
 from copy import deepcopy
 
+BLACK = -1
+WHITE = 1
 WEIGHTS = [
             [120, -20,  20,   5,   5,  20, -20, 120],
             [-20, -40,  -5,  -5,  -5,  -5, -40, -20],
@@ -14,50 +15,16 @@ WEIGHTS = [
         ]
 
 
-def getChildren(game_name):
-    children = list()
-    moves = game_name.getValid()
-
-    for move in moves:
-        temporary_game = deepcopy(game_name)
-        temporary_game.makeMove(move)
-        children.append(temporary_game)
-    return children, moves
-
-def getTokens(game_name):
-    black_tokens = 0
-    white_tokens = 0
-
-    for i in range(8):
-        for j in range(8):
-            if game_name.board[i][j] == BLACK:
-                black_tokens += 1
-            elif game_name.board[i][j] == WHITE:
-                white_tokens += 1
-    return {'Black': black_tokens, 'White': white_tokens}
-
-def getScore(game_name):
-    black_score = 0
-    white_score = 0
-
-    for i in range(8):
-        for j in range(8):
-            if game_name.board[i][j] == BLACK:
-                black_score += WEIGHTS[i][j]
-            elif game_name.board[i][j] == WHITE:
-                white_score += WEIGHTS[i][j]
-    return {BLACK: black_score, WHITE: white_score}
-
-def minimax(game_name, alpha, beta, depth, is_maximizing):
-    children, moves = getChildren(game_name)
-    player = game_name.current_player
-    score = getScore(game_name)
+def minimax(state_name, alpha, beta, depth, is_maximizing):
+    children, moves = getChildren(state_name)
+    player = state_name.current_player
+    score = getScore(state_name)
     shuffle(children)
 
     if is_maximizing:
         max_value, max_move = float('-inf'), [-1, -1]
 
-        if game_name.isFinished() or depth == 0:
+        if state_name.isFinished() or depth == 0:
             return score[player] - score[-player], max_move
 
         for num, child in enumerate(children):
@@ -72,7 +39,7 @@ def minimax(game_name, alpha, beta, depth, is_maximizing):
     else:
         min_value, min_move = float('inf'), [-1, -1]
 
-        if game_name.isFinished() or depth == 0:
+        if state_name.isFinished() or depth == 0:
             return score[player] - score[-player], min_move
 
         for num, child in enumerate(children):
@@ -85,28 +52,66 @@ def minimax(game_name, alpha, beta, depth, is_maximizing):
 
         return min_value, min_move
 
-def human_play(game_name):
+
+def getChildren(state_name):
+    children = list()
+    moves = state_name.getValid()
+
+    for move in moves:
+        temporary_game = deepcopy(state_name)
+        temporary_game.makeMove(move)
+        children.append(temporary_game)
+    return children, moves
+
+
+def getTokens(state_name):
+    black_tokens = 0
+    white_tokens = 0
+
+    for i in range(8):
+        for j in range(8):
+            if state_name.board[i][j] == BLACK:
+                black_tokens += 1
+            elif state_name.board[i][j] == WHITE:
+                white_tokens += 1
+    return {'Black': black_tokens, 'White': white_tokens}
+
+
+def getScore(state_name):
+    black_score = 0
+    white_score = 0
+
+    for i in range(8):
+        for j in range(8):
+            if state_name.board[i][j] == BLACK:
+                black_score += WEIGHTS[i][j]
+            elif state_name.board[i][j] == WHITE:
+                white_score += WEIGHTS[i][j]
+    return {BLACK: black_score, WHITE: white_score}
+
+
+def humanPlayer(state_name):
     while True:
-        if game_name.hasValid():
+        if state_name.hasValid():
             move = [int(num) - 1 for num in input("Where do you want to place your token: ").split(',')]
-            if game_name.isValid(move):
-                game_name.makeMove(move)
+            if state_name.isValid(move):
+                state_name.makeMove(move)
                 break
             else:
                 print("The move you made isn't valid. Please give a valid move")
         else:
             print("I'm sorry you don't have any valid moves.")
-            game_name.current_player = -game_name.current_player
+            state_name.current_player = - state_name.current_player
             break
 
-def ai_play(game_name, alpha, beta, depth, is_maximizing):
-    if game_name.hasValid():
-        value, move = minimax(game_name, alpha, beta, depth, is_maximizing)
+
+def aiPlayer(state_name, alpha, beta, depth, is_maximizing):
+    if state_name.hasValid():
+        value, move = minimax(state_name, alpha, beta, depth, is_maximizing)
         print('The AI decided to place a token on [{}, {}]'.format(move[0] + 1, move[1] + 1))
-        game_name.makeMove(move)
+        state_name.makeMove(move)
         return move
     else:
         print("The AI has no valid moves. It's your turn to play.")
-        game_name.current_player = -game_name.current_player
+        state_name.current_player = -state_name.current_player
         return None
-        
